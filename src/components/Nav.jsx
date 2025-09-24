@@ -5,8 +5,8 @@ function Nav() {
     <>
       <nav
         aria-label="Global"
-        class="flex items-center justify-between p-6 lg:px-8"
-        text-black
+        class="flex items-center justify-between p-6 lg:px-8 bg-black
+"
       >
         <div class="flex lg:flex-1">
           <a href="#" class="-m-1.5 p-1.5">
@@ -18,7 +18,7 @@ function Nav() {
             />
           </a>
         </div>
-        <div class="flex lg:hidden">
+        <div class="flex lg:hidden text-black">
           <button
             type="button"
             command="show-modal"
@@ -45,7 +45,7 @@ function Nav() {
         </div>
         <div class="hidden lg:flex lg:gap-x-12">
           <a href="#" class="text-sm/6 font-semibold text-white">
-            Product
+            Products
           </a>
           <a href="#" class="text-sm/6 font-semibold text-white">
             Features
