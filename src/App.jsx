@@ -1,5 +1,4 @@
 import { useState } from "react";
-import nodeCrypto from "crypto";
 
 import "./App.css";
 import Nav from "./components/Nav";
@@ -12,6 +11,19 @@ function App() {
     setInputPosition(!inputPosition);
   };
 
+  const generateBotMessage = (message) => {
+    setChatMessages((prevMessages) => {
+      return [
+        ...prevMessages,
+        {
+          sender: "bot",
+          message: message,
+          id: crypto.randomUUID(),
+        },
+      ];
+    });
+  };
+  // create function to handle user input from Form component
   const createUserChat = (userInput) => {
     setChatMessages((prevMessages) => {
       return [
@@ -24,46 +36,20 @@ function App() {
     switch (true) {
       case userInput.toLowerCase().trim().includes("hello"):
         setTimeout(() => {
-          setChatMessages((prevMessages) => {
-            return [
-              ...prevMessages,
-              {
-                sender: "bot",
-                message: "Hi there! How can I help you",
-                id: crypto.randomUUID(),
-              },
-            ];
-          });
+          generateBotMessage("Hi there! How can I help you?");
         }, 1000);
         break;
       case userInput.toLowerCase().includes("date"):
         setTimeout(() => {
-          setChatMessages((prevMessages) => {
-            return [
-              ...prevMessages,
-              {
-                sender: "bot",
-                message: "today is " + new Date().toLocaleDateString(),
-                id: crypto.randomUUID(),
-              },
-            ];
-          });
+          generateBotMessage(
+            `Today's date is ${new Date().toLocaleDateString()}`
+          );
         }, 1000);
         break;
 
       default:
-      case userInput.includes("date"):
         setTimeout(() => {
-          setChatMessages((prevMessages) => {
-            return [
-              ...prevMessages,
-              {
-                sender: "bot",
-                message: "Sorry, I didn't understand that. Try again!",
-                id: crypto.randomUUID(),
-              },
-            ];
-          });
+          generateBotMessage("I'm sorry, I don't understand. Ask Again!!");
         }, 1000);
         break;
     }
@@ -75,9 +61,7 @@ function App() {
         {inputPosition === true ? <Form createUserChat={createUserChat} /> : ""}
         {/* iterate thru the array of objects */}
         {chatMessages.map((chat) => (
-          <>
-            <ChatBox key={chat.id} input={chat.message} sender={chat.sender} />
-          </>
+          <ChatBox key={chat.id} input={chat.message} sender={chat.sender} />
         ))}
 
         {inputPosition === false ? (
