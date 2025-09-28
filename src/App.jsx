@@ -7,7 +7,7 @@ import ChatBox from "./components/ChatBox";
 function App() {
   const [inputPosition, setInputPosition] = useState(true);
   const [chatMessages, setChatMessages] = useState([]);
-  const handlePositionChange = () => {
+  const handlePositionChange = () => { 
     setInputPosition(!inputPosition);
   };
 
