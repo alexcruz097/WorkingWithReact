@@ -7,8 +7,10 @@ import ChatBox from "./components/ChatBox";
 function App() {
   const [inputPosition, setInputPosition] = useState(true);
   const [chatMessages, setChatMessages] = useState([]);
-  const handlePositionChange = () => { 
-    setInputPosition(!inputPosition);
+  const handlePositionChange = () =>  { 
+
+
+    setInputPosition(!inputPosition); 
   };
 
   const generateBotMessage = (message) => {
@@ -23,7 +25,7 @@ function App() {
       ];
     });
   };
-  // create function to handle user input from Form component
+  // create function to handle user input from Form componen
   const createUserChat = (userInput) => {
     setChatMessages((prevMessages) => {
       return [
