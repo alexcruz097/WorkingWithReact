@@ -19,6 +19,7 @@ function App() {
         ...prevMessages,
         {
           sender: "bot",
+          
           message: message,
           id: crypto.randomUUID(),
         },
