@@ -1,86 +1,68 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import API_KEY from "../config";
 import "./App.css";
-import Nav from "./components/Nav";
 import Form from "./components/Form";
-import ChatBox from "./components/ChatBox";
+
 function App() {
-  const [inputPosition, setInputPosition] = useState(true);
-  const [chatMessages, setChatMessages] = useState([]);
-  const handlePositionChange = () =>  { 
-
-
-    setInputPosition(!inputPosition); 
+  const [weather, setWeather] = useState({});
+  const [userInput, setUserInput] = useState("London");
+  const [error, setError] = useState(false);
+  const [errorMSG, setErrorMSG] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  // fetch data from api
+  const getUserInput = (input) => {
+    setUserInput(input);
   };
+  // function to get user Input
 
-  const generateBotMessage = (message) => {
-    setChatMessages((prevMessages) => {
-      return [
-        ...prevMessages,
-        {
-          sender: "bot",
-          
-          message: message,
-          id: crypto.randomUUID(),
-        },
-      ];
-    });
-  };
-  // create function to handle user input from Form componen
-  const createUserChat = (userInput) => {
-    setChatMessages((prevMessages) => {
-      return [
-        ...prevMessages,
-        { sender: "user", message: userInput, id: crypto.randomUUID() },
-      ];
-    });
-    // check user input and set bot response
+  useEffect(() => {
+    const fetchWeather = async () => {
+      setError(false);
+      try {
+        const response = await fetch(
+          `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${userInput}&days=3&aqi=no`
+        );
+        const data = await response.json();
+        console.log(data);
+        setWeather(data);
 
-    switch (true) {
-      case userInput.toLowerCase().trim().includes("hello"):
-        setTimeout(() => {
-          generateBotMessage("Hi there! How can I help you?");
-        }, 1000);
-        break;
-      case userInput.toLowerCase().includes("date"):
-        setTimeout(() => {
-          generateBotMessage(
-            `Today's date is ${new Date().toLocaleDateString()}`
-          );
-        }, 1000);
-        break;
+        setIsLoading(false);
+      } catch (error) {
+        setError(true);
+        setErrorMSG(error);
+        console.log("Error fetching weather data:", error);
+      } finally {
+        // Set loading to false regardless of success or failure
 
-      default:
-        setTimeout(() => {
-          generateBotMessage("I'm sorry, I don't understand. Ask Again!!");
-        }, 1000);
-        break;
-    }
-  };
-  return (
-    <>
-      <Nav />
-      <div className="flex flex-col justify-center content-center flex-wrap">
-        {inputPosition === true ? <Form createUserChat={createUserChat} /> : ""}
-        {/* iterate thru the array of objects */}
-        {chatMessages.map((chat) => (
-          <ChatBox key={chat.id} input={chat.message} sender={chat.sender} />
-        ))}
-
-        {inputPosition === false ? (
-          <Form createUserChat={createUserChat} />
-        ) : (
-          ""
-        )}
-        <button
-          className="underline mt-6"
-          onClick={handlePositionChange}
-          aria-label="Toggle input position"
-        >
-          Put Input to the {inputPosition ? "Bottom" : "Top"}
-        </button>
+        setIsLoading(false);
+      }
+    };
+    // call the function
+    fetchWeather();
+  }, [userInput]);
+  if (error) {
+    return <div>There was an error: {errorMSG}. Please Try Again. </div>;
+  }
+  if (isLoading) {
+    return (
+      <div className="flex justify-evenly align-top text-white bg-black">
+        <img className="bg-black" src="src\assets\loadingAnimation.gif" />
       </div>
-    </>
+    );
+  }
+  // useeffect to fectch data
+  return (
+    <div className="" style={{ backgroundColor: "#0B131E" }}>
+      <Form getUserInput={getUserInput} />
+
+      <div className="flex justify-evenly align-top text-white">
+        <div>
+          <h1 className="text-3xl weight">{weather.location.name}</h1>
+          <h1 className="text-3xl mt-3">{weather.current.feelslike_f}°F </h1>
+        </div>
+        <img src={weather.current.condition.icon} alt="" srcset="" />{" "}
+      </div>
+    </div>
   );
 }
 

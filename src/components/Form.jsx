@@ -1,30 +1,28 @@
-import React, { use } from "react";
+import React from "react";
 import { useState } from "react";
-function Form({ createUserChat }) {
+function Form({ getUserInput }) {
   const [userInput, setUserInput] = useState("");
   return (
-    <div className="flex justify-center centent-center mt-6">
+    <div className="flex justify-center centent-center pt-6">
       <input
         type="text"
         name=""
         id=""
-        value={userInput}
         className="border-2 border-black p-2 mr-2 rounded-lg w-80"
-        placeholder="Send a message to Chatbot"
+        placeholder="Searn for a city"
         onChange={(e) => {
           setUserInput(e.target.value);
         }}
       />
       <button
         type="submit"
-        onClick={(e) => {
+        onClick={() => {
           // check if userInput is not empty or just spaces
           if (userInput.trim() !== "") {
-            createUserChat(userInput);
-            setUserInput("");
+            getUserInput(userInput);
           }
         }}
-        className="bg-green-500 text-white p-2 border-none w-32
+        className="bg-green-500 text-white border-none w-32
  rounded-lg
 "
       >
