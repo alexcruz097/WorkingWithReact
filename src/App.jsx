@@ -7,7 +7,6 @@ function App() {
   const [weather, setWeather] = useState({});
   const [userInput, setUserInput] = useState("London");
   const [error, setError] = useState(false);
-  const [errorMSG, setErrorMSG] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   // fetch data from api
   const getUserInput = (input) => {
@@ -31,10 +30,8 @@ function App() {
         setWeather(data);
 
         setIsLoading(false);
-      } catch (error) {
+      } catch (e) {
         setError(true);
-
-        setErrorMSG(error);
       } finally {
         // Set loading to false regardless of success or failure
 
@@ -69,7 +66,7 @@ function App() {
   // useeffect to fectch data
   return (
     <div
-      className="flex flex-col justify-center items-center"
+      className="grid place-items-center"
       style={{ backgroundColor: "#0B131E" }}
     >
       <Form getUserInput={getUserInput} />
@@ -140,6 +137,60 @@ function App() {
             <p>UV Index</p>
             <h1>3</h1>
           </div>
+        </div>
+      </div>
+      {/* 4-day forecast */}
+      <div
+        className="text-white mb-6 p-9 rounded-lg flex flex-col"
+        style={{ backgroundColor: "#19232F", width: "40rem" }}
+      >
+        <p>4-DAY FORECAST</p>
+        <div className="flex justify-between mt-1 mb-3 p-7 border-b-2">
+          <p>Today</p>
+          <p className="flex items-center">
+            <img src={weather.current.condition.icon} />
+            {weather.current.condition.text}
+          </p>
+          <p>26/22</p>
+        </div>
+        <div className="flex justify-between mt-1 mb-3 p-7 border-b-2">
+          <p className="flex items-center">
+            {weather.forecast.forecastday[0].date}
+          </p>
+          <p className="flex items-center">
+            <img src={weather.forecast.forecastday[0].day.condition.icon} />
+            {weather.forecast.forecastday[0].day.condition.text}
+          </p>
+          <p className="flex items-center">
+            {weather.forecast.forecastday[0].day.maxtemp_f}F/
+            {weather.forecast.forecastday[0].day.mintemp_f}F
+          </p>
+        </div>
+        <div className="flex justify-between mt-1 mb-3 p-7 border-b-2">
+          <p className="flex items-center">
+            {weather.forecast.forecastday[1].date}
+          </p>
+          <p className="flex items-center">
+            <img src={weather.forecast.forecastday[1].day.condition.icon} />
+            {weather.forecast.forecastday[1].day.condition.text}
+          </p>
+          <p className="flex items-center">
+            {weather.forecast.forecastday[1].day.maxtemp_f}F/
+            {weather.forecast.forecastday[1].day.mintemp_f}F
+          </p>
+        </div>
+        <div className="flex justify-between mt-1 mb-3 p-7 border-b-2">
+          <p className="flex items-center">
+            {weather.forecast.forecastday[2].date}
+          </p>
+          <p className="flex items-center">
+            <img src={weather.forecast.forecastday[2].day.condition.icon} />
+            {weather.forecast.forecastday[2].day.condition.text}
+          </p>
+          <p className="flex items-center">
+            {weather.forecast.forecastday[2].day.maxtemp_f}F/
+            {weather.forecast.forecastday[2].day.mintemp_f}F
+          </p>
         </div>
       </div>
     </div>
