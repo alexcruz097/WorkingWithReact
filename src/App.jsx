@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import API_KEY from "../config";
 import "./App.css";
 import Form from "./components/Form";
-
+import HourForcast from "./components/HourForecast";
+import FutureForecast from "./components/FutureForecast";
+import AirCondition from "./components/AirCondition";
+import Nav from "./components/Nav";
 function App() {
   const [weather, setWeather] = useState({});
   const [userInput, setUserInput] = useState("London");
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const hours = [6, 9, 12, 15, 18, 21];
+  const forecastDays = [0, 1, 2];
   // fetch data from api
   const getUserInput = (input) => {
     setUserInput(input);
@@ -38,6 +43,7 @@ function App() {
         setIsLoading(false);
       }
     };
+
     // call the function
     fetchWeather();
   }, [userInput]);
@@ -59,141 +65,39 @@ function App() {
   if (isLoading) {
     return (
       <div className="flex justify-evenly align-top text-white bg-black">
-        <img className="bg-black" src="src\assets\loadingAnimation.gif" />
+        <img className="bg-black" src="src/assets/loadingAnimation.gif" />
       </div>
     );
   }
   // useeffect to fectch data
   return (
+    <>
+    <Nav />
     <div
-      className="grid place-items-center"
+      className="grid grid-cols-2 items-start  grid-rows-6 gap-4 p-9 h-screen"
       style={{ backgroundColor: "#0B131E" }}
     >
-      <Form getUserInput={getUserInput} />
+      <Form getUserInput={getUserInput} className="order-2 " />
 
-      <div className="flex text-white ">
+      <div className="flex justify-between text-white row-span-1 order-2">
         <div>
           <h1 className="text-3xl weight">{weather?.location?.name}</h1>
           <h1 className="text-3xl mt-3">{weather?.current?.feelslike_f}°F </h1>
         </div>
-        <img src={weather.current.condition.icon} alt="" srcSet="" />
+        <img
+          src={weather?.current?.condition?.icon}
+          alt=""
+          srcSet="Weather icon"
+        />
       </div>
       {/* today forecast */}
-      <div
-        className="text-white rounded-lg p-9"
-        style={{ backgroundColor: "#19232F" }}
-      >
-        <p className="mb-7">TODAY'S FORECAST</p>
-        <ul className="flex justify-start  ">
-          <li className="border-r-2 border-white mr-4 p-4">
-            <p>6:00AM</p>
-            <img src={weather.current.condition.icon} alt="" srcSet="" />
-            <h1>25F</h1>
-          </li>
-          <li className="border-r-2 border-white mr-4 p-4">
-            <p>6:00AM</p>
-            <img src={weather.current.condition.icon} alt="" srcSet="" />
-            <h1>25F</h1>
-          </li>
-          <li className="border-r-2 border-white mr-4 p-4">
-            <p>6:00AM</p>
-            <img src={weather.current.condition.icon} alt="" srcSet="" />
-            <h1>25F</h1>
-          </li>
-          <li className="border-r-2 border-white mr-4 p-4">
-            <p>6:00AM</p>
-            <img src={weather.current.condition.icon} alt="" srcSet="" />
-            <h1>25F</h1>
-          </li>{" "}
-          <li className="border-r-2 border-white mr-4 p-4">
-            <p>6:00AM</p>
-            <img src={weather.current.condition.icon} alt="" srcSet="" />
-            <h1>25F</h1>
-          </li>
-        </ul>
-      </div>
+      <HourForcast weather={weather} hours={hours} />
       {/* air condition */}
-      <div
-        className="text-white mt-7 p-9 rounded-lg flex flex-col mb-6"
-        style={{ backgroundColor: "#19232F", width: "40rem" }}
-      >
-        <p>AIR CONDITIONS</p>
-        <div className="flex justify-between mt-1 mb-3 p-5">
-          <div>
-            <p>Real Feel</p>
-            <h1>30F</h1>
-          </div>
-          <div>
-            <p>Wind</p>
-            <h1>.2km/h</h1>
-          </div>
-        </div>
-        <div className="flex justify-between mt-1 mb-3 p-5">
-          <div>
-            <p>Chanse of rain</p>
-            <h1>0%</h1>
-          </div>
-          <div>
-            <p>UV Index</p>
-            <h1>3</h1>
-          </div>
-        </div>
-      </div>
-      {/* 4-day forecast */}
-      <div
-        className="text-white mb-6 p-9 rounded-lg flex flex-col"
-        style={{ backgroundColor: "#19232F", width: "40rem" }}
-      >
-        <p>4-DAY FORECAST</p>
-        <div className="flex justify-between mt-1 mb-3 p-7 border-b-2">
-          <p>Today</p>
-          <p className="flex items-center">
-            <img src={weather.current.condition.icon} />
-            {weather.current.condition.text}
-          </p>
-          <p>26/22</p>
-        </div>
-        <div className="flex justify-between mt-1 mb-3 p-7 border-b-2">
-          <p className="flex items-center">
-            {weather.forecast.forecastday[0].date}
-          </p>
-          <p className="flex items-center">
-            <img src={weather.forecast.forecastday[0].day.condition.icon} />
-            {weather.forecast.forecastday[0].day.condition.text}
-          </p>
-          <p className="flex items-center">
-            {weather.forecast.forecastday[0].day.maxtemp_f}F/
-            {weather.forecast.forecastday[0].day.mintemp_f}F
-          </p>
-        </div>
-        <div className="flex justify-between mt-1 mb-3 p-7 border-b-2">
-          <p className="flex items-center">
-            {weather.forecast.forecastday[1].date}
-          </p>
-          <p className="flex items-center">
-            <img src={weather.forecast.forecastday[1].day.condition.icon} />
-            {weather.forecast.forecastday[1].day.condition.text}
-          </p>
-          <p className="flex items-center">
-            {weather.forecast.forecastday[1].day.maxtemp_f}F/
-            {weather.forecast.forecastday[1].day.mintemp_f}F
-          </p>
-        </div>
-        <div className="flex justify-between mt-1 mb-3 p-7 border-b-2">
-          <p className="flex items-center">
-            {weather.forecast.forecastday[2].date}
-          </p>
-          <p className="flex items-center">
-            <img src={weather.forecast.forecastday[2].day.condition.icon} />
-            {weather.forecast.forecastday[2].day.condition.text}
-          </p>
-          <p className="flex items-center">
-            {weather.forecast.forecastday[2].day.maxtemp_f}F/
-            {weather.forecast.forecastday[2].day.mintemp_f}F
-          </p>
-        </div>
-      </div>
+      <AirCondition weather={weather} />
+      {/* 3-day forecast */}
+      <FutureForecast weather={weather} forecastDays={forecastDays} />
     </div>
+    </>
   );
 }
 
