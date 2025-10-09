@@ -6,6 +6,7 @@ import HourForcast from "./components/HourForecast";
 import FutureForecast from "./components/FutureForecast";
 import AirCondition from "./components/AirCondition";
 import Nav from "./components/Nav";
+import Map from "./components/Map";
 function App() {
   const [weather, setWeather] = useState({});
   const [userInput, setUserInput] = useState("London");
@@ -36,6 +37,7 @@ function App() {
 
         setIsLoading(false);
       } catch (e) {
+        console.error("Error fetching weather data:", e);
         setError(true);
       } finally {
         // Set loading to false regardless of success or failure
@@ -72,31 +74,35 @@ function App() {
   // useeffect to fectch data
   return (
     <>
-    <Nav />
-    <div
-      className="grid grid-cols-2 items-start  grid-rows-6 gap-4 p-9 h-screen"
-      style={{ backgroundColor: "#0B131E" }}
-    >
-      <Form getUserInput={getUserInput} className="order-2 " />
+      <Nav />
+      <div
+        className="grid grid-cols-2 items-start  grid-rows-6 gap-4 p-9 h-screen"
+        style={{ backgroundColor: "#0B131E" }}
+      >
+        <Form getUserInput={getUserInput} className="order-2 " />
 
-      <div className="flex justify-between text-white row-span-1 order-2">
-        <div>
-          <h1 className="text-3xl weight">{weather?.location?.name}</h1>
-          <h1 className="text-3xl mt-3">{weather?.current?.feelslike_f}°F </h1>
+        <div className="flex justify-between text-white row-span-1 order-2">
+          <div>
+            <h1 className="text-3xl weight">{weather?.location?.name}</h1>
+            <h1 className="text-3xl mt-3">
+              {weather?.current?.feelslike_f}°F{" "}
+            </h1>
+          </div>
+          <img
+            className="h-40 w-40"
+            src={weather?.current?.condition?.icon}
+            alt=""
+            srcSet="Weather icon"
+          />
         </div>
-        <img
-          src={weather?.current?.condition?.icon}
-          alt=""
-          srcSet="Weather icon"
-        />
+        <Map />
+        {/* today forecast */}
+        <HourForcast weather={weather} hours={hours} />
+        {/* air condition */}
+        <AirCondition weather={weather} />
+        {/* 3-day forecast */}
+        <FutureForecast weather={weather} forecastDays={forecastDays} />
       </div>
-      {/* today forecast */}
-      <HourForcast weather={weather} hours={hours} />
-      {/* air condition */}
-      <AirCondition weather={weather} />
-      {/* 3-day forecast */}
-      <FutureForecast weather={weather} forecastDays={forecastDays} />
-    </div>
     </>
   );
 }
