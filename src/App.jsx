@@ -76,12 +76,12 @@ function App() {
     <>
       <Nav />
       <div
-        className="grid grid-cols-2 items-start  grid-rows-6 gap-4 p-9 h-screen"
-        style={{ backgroundColor: "#0B131E" }}
+        className=" p-9 h-screen"
+        style={{ backgroundColor: "#06070A" }}
       >
-        <Form getUserInput={getUserInput} className="order-2 " />
+        <Form getUserInput={getUserInput} className="" />
 
-        <div className="flex justify-between text-white row-span-1 order-2">
+        <div className="flex justify-between text-white ">
           <div>
             <h1 className="text-3xl weight">{weather?.location?.name}</h1>
             <h1 className="text-3xl mt-3">
