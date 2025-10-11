@@ -4,15 +4,14 @@ function FutureForecast({ weather, forecastDays }) {
   return (
     <div
       className="text-white mb-6 p-9 rounded-lg order-1 row-span-6 self-stretch"
-      style={{ backgroundColor: "#19232F", width: "40rem" }}
+      style={{ backgroundColor: "#111115", width: "40rem" }}
     >
-      <p>3-DAY FORECAST</p>
       {/* iterate thru Forecast */}
       {forecastDays.map((day, index) => {
         return (
           <div
             key={index}
-            className="flex justify-between mt-1 mb-3 p-7 border-b-2"
+            className="flex justify-between    border-b-2"
           >
             <p className="flex items-center">
               {weather?.forecast?.forecastday[day]?.date}

@@ -1,23 +1,32 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-function Map() {
+import { MapContainer, TileLayer, Marker, Popup , useMapEvents, useMap, useNavigate } from "react-leaflet";
+function Map({ mapLatLon , cityName}) {
+  const ChangeCenter=({position})=>{
+    const map = useMap();
+    map.setView(position)
+    return null
+  }
+const detectClick = ({position}) =>{
+const navigate = useNavigate();
+useMapEvents({
+ click:(e)=>{
+ navigate(`addcity?lat=${e.latlng.lat}&long=${e.latlng.lng}`);
+  console.log(e)
+ }
+})
+}
   return (
-    <MapContainer
-      center={[51.505, -0.09]}
-      zoom={13}
-      scrollWheelZoom={false}
-      style={{ height: "250px", width: "100%" }} // ensures map fills screen
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[51.505, -0.09]}> 
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-    </MapContainer>
-  );
+  <MapContainer
+    center={{ lat: 51.505, lng: -0.09 }}
+    zoom={13}
+    scrollWheelZoom={false}>
+    <TileLayer
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    />
+<ChangeCenter position={mapPosition} />  
+<DetectClick />
+</MapContainer>,
+  )
 }
 
 export default Map;

@@ -9,11 +9,13 @@ import Nav from "./components/Nav";
 import Map from "./components/Map";
 function App() {
   const [weather, setWeather] = useState({});
-  const [userInput, setUserInput] = useState("London");
+  const [userInput, setUserInput] = useState("Los Angeles");
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const hours = [6, 9, 12, 15, 18, 21];
   const forecastDays = [0, 1, 2];
+
+  const [mapLatLon,setMapLatLon] = useState(null);
   // fetch data from api
   const getUserInput = (input) => {
     setUserInput(input);
@@ -33,7 +35,9 @@ function App() {
         }
         const data = await response.json();
         console.log(data);
+        setMapLatLon([data.location.lat, data.location.lon])
         setWeather(data);
+// set location
 
         setIsLoading(false);
       } catch (e) {
@@ -75,33 +79,39 @@ function App() {
   return (
     <>
       <Nav />
-      <div
-        className=" p-9 h-screen"
-        style={{ backgroundColor: "#06070A" }}
-      >
-        <Form getUserInput={getUserInput} className="" />
+      <div style={{ backgroundColor: "#06070A" }}>
+        <div className="max-w-5xl m-auto">
+          <Form getUserInput={getUserInput} className="" />
 
-        <div className="flex justify-between text-white ">
-          <div>
-            <h1 className="text-3xl weight">{weather?.location?.name}</h1>
-            <h1 className="text-3xl mt-3">
-              {weather?.current?.feelslike_f}°F{" "}
-            </h1>
+          <div className="flex justify-between items-center text-white h-96">
+            <div className="flex flex-col items-center">
+              <h1 className="text-6xl ">{weather?.location?.name}</h1>
+              <img
+                className="h-40"
+                src={weather?.current?.condition?.icon}
+                alt=""
+                srcSet="Weather icon"
+              />
+              <h1 className="text-3xl ">{weather?.current?.feelslike_f}°F </h1>
+              <h1>{weather?.current?.condition?.text}</h1>
+            </div>
+
+            <Map mapLatLon={mapLatLon} cityName = {weather.location.name}/>
           </div>
-          <img
-            className="h-40 w-40"
-            src={weather?.current?.condition?.icon}
-            alt=""
-            srcSet="Weather icon"
-          />
+          <div className="flex justify-between">
+            {/* today forecast */}
+            <HourForcast weather={weather} hours={hours} />
+            {/* air condition */}
+            <AirCondition weather={weather} />
+          </div>
+
+          {/* 3-day forecast */}
+          <div className="flex flex-col text-white justify-center align-center">
+            <p>3-DAY FORECAST</p>
+
+            <FutureForecast weather={weather} forecastDays={forecastDays} />
+          </div>
         </div>
-        <Map />
-        {/* today forecast */}
-        <HourForcast weather={weather} hours={hours} />
-        {/* air condition */}
-        <AirCondition weather={weather} />
-        {/* 3-day forecast */}
-        <FutureForecast weather={weather} forecastDays={forecastDays} />
       </div>
     </>
   );

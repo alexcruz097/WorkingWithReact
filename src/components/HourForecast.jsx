@@ -3,7 +3,7 @@ import React from "react";
 function HourForcast({ weather, hours }) {
   return (
     <div
-      className="text-white rounded-lg p-9 overflow-auto"
+      className="text-white rounded-lg p-9 overflow-auto max-w-sm"
       style={{ width: "40rem" }}
     >
       <p className="mb-7">TODAY'S FORECAST</p>
