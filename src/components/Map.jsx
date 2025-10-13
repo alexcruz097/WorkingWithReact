@@ -10,7 +10,7 @@ const navigate = useNavigate();
 useMapEvents({
  click:(e)=>{
  navigate(`addcity?lat=${e.latlng.lat}&long=${e.latlng.lng}`);
-  console.log(e)
+  console.log(e) 
  }
 })
 }
