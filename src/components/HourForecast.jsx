@@ -7,13 +7,13 @@ function HourForcast({ weather, hours }) {
       style={{ width: "40rem" }}
     >
       <p className="mb-7">TODAY'S FORECAST</p>
-      <ul className="flex justify-start  ">
+      <ul className="flex justify-start">
         {/* iterate thru map */}
         {hours.map((hour, index) => {
           return (
             <li
               key={index}
-              className="rounded-lg mr-4 p-4 flex flex-col items-center"
+              className="rounded-lg mr-4 p-4 flex   flex-col items-center"
               style={{backgroundColor: "#111115"}}
             >
               <p>
