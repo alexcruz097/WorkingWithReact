@@ -4,6 +4,7 @@ function Form({ getUserInput }) {
   const [userInput, setUserInput] = useState("");
   return (
     <div className="flex justify-center centent-center pt-6">
+      
       <input
         type="text"
         name=""
