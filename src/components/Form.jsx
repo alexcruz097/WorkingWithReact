@@ -12,6 +12,7 @@ function Form({ getUserInput }) {
         className="border-2 border-black p-2 mr-2 rounded-lg w-80"
         placeholder="Searn for a city"
         onChange={(e) => {  
+          
 
           setUserInput(e.target.value);
           
