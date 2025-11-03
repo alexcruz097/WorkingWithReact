@@ -15,6 +15,8 @@ function HourForcast({ weather, hours }) {
               key={index}
               className="rounded-lg mr-4 p-4 flex   flex-col items-center"
               style={{backgroundColor: "#111115"}}
+
+              
             >
               <p>
                 {hour}{hour < 12 ? " AM" : " PM"}
