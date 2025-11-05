@@ -21,6 +21,8 @@ function HourForcast({ weather, hours }) {
               <p>
                 {hour}{hour < 12 ? " AM" : " PM"}
               </p>
+
+              
               <img
                 className="mt-3 mb-3"
                 src={
