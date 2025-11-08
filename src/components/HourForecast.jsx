@@ -26,6 +26,7 @@ function HourForcast({ weather, hours }) {
 
               
               <img
+              
                 className="mt-3 mb-3"
                 src={
                   weather?.forecast?.forecastday[0]?.hour[hour]?.condition?.icon
