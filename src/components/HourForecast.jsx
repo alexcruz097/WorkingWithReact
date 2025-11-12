@@ -30,7 +30,10 @@ function HourForcast({ weather, hours }) {
                 className="mt-3 mb-3"
                 
                 
-                src={
+                src={   
+
+
+                  
                   weather?.forecast?.forecastday[0]?.hour[hour]?.condition?.icon
                 }
                 alt="weather icon"
