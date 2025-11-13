@@ -35,6 +35,8 @@ function HourForcast({ weather, hours }) {
 
                   
                   weather?.forecast?.forecastday[0]?.hour[hour]?.condition?.icon
+               
+               
                 }
                 alt="weather icon"
                 srcSet=""
