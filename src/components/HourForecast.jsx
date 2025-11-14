@@ -40,6 +40,8 @@ function HourForcast({ weather, hours }) {
                 }
                 alt="weather icon"
                 srcSet=""
+
+                
               />
               <h1>
                 {weather?.forecast?.forecastday[0]?.hour[hour]?.feelslike_f}F
